@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>订单管理</title>
+		<link rel="stylesheet" type="text/css" href="layui/css/layui.css" />
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+	</head>
+
+	<body>
+		<!--admin-->
+		<div class="layui-layout layui-layout-admin">
+			<div class="layui-header">
+				<ul class="layui-nav index-nav">
+					<li class="layui-nav-item">
+						<a href="javascript:;">你好，<span id="user"></span>，欢迎回来</a>
+					</li>
+					<!--<li class="layui-nav-item">
+						<a id="update-btn" href="javascript:;">修改密码</a>
+					</li>-->
+					<li class="layui-nav-item">
+						<a id="logout" href="javascript:;">注销</a>
+					</li>
+				</ul>
+			</div>
+			<div class="layui-side layui-bg-black">
+				<div class="layui-side-scroll">
+					<ul class="layui-nav layui-nav-tree site-demo-nav">
+						<li class="layui-nav-item">
+							<a href="index.html">车辆管理</a>
+						</li>
+						<li class="layui-nav-item layui-this">
+							<a href="order.html">订单管理</a>
+						</li>
+						<li class="layui-nav-item">
+							<a href="store.html">门店结算管理</a>
+						</li>
+						<li class="layui-nav-item">
+							<a href="project.html">服务商结算</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="layui-body">
+				<div class="layui-main">
+					<blockquote class="layui-elem-quote">
+						<button class="layui-btn" id="search-btn">搜索</button>
+					</blockquote>
+					<div id="order-table">
+
+					</div>
+				</div>
+				<div class="laypage" id="laypage">
+				</div>
+			</div>
+
+			<div class="layui-footer"></div>
+
+		</div>
+		<!--admin-->
+
+		<!--search-->
+		<div id="search" class="search">
+			<form class="layui-form" action="">
+				<div class="layui-form-item">
+					<label class="layui-form-label">订单编号</label>
+					<div class="layui-input-block">
+						<input type="number" name="orderNo" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">订单状态</label>
+					<div class="layui-input-block">
+						<select multiple="multiple" name="status">
+							<option value=""></option>
+							<option value="UNPAYED">未支付</option>
+							<option value="PAYED">已支付</option>
+							<option value="SERVICED">已服务</option>
+							<option value="CONFIRMED">已确认</option>
+							<option value="EVALUATED">已完成</option>
+							<option value="REFUNDED">已退款</option>
+							<option value="CANCELED">已取消</option>
+							<option value="REFUNDED_OFF_LINE">线下退款</option>
+						</select>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">车架号</label>
+					<div class="layui-input-block">
+						<input type="text" name="vin" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">门店名称</label>
+					<div class="layui-input-block">
+						<input type="text" name="shopName" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">门店手机号</label>
+					<div class="layui-input-block">
+						<input type="text" name="shopPhone" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<div class="layui-inline">
+						<label class="layui-form-label">订单时间</label>
+						<div class="layui-input-inline" style="width: 100px;">
+							<input type="text" onclick="laydate({elem: this, festival: true})" name="beginTime" class="layui-input">
+						</div>
+						<div class="layui-form-mid">-</div>
+						<div class="layui-input-inline" style="width: 100px;">
+							<input type="text" onclick="laydate({elem: this, festival: true})" name="endTime" class="layui-input">
+						</div>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">是否开票</label>
+					<div class="layui-input-block">
+						<select name="needInvoice">
+							<option value=""></option>
+							<option value="0">是</option>
+							<option value="1">否</option>
+						</select>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<div class="layui-input-block">
+						<button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+						<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+					</div>
+				</div>
+			</form>
+		</div>
+		<!--search-->
+
+		<!--details-->
+		<div id="details" class="details-container">
+			<div class="layui-tab layui-tab-card">
+				<ul class="layui-tab-title">
+					<li class="layui-this">基本信息</li>
+					<li>服务信息</li>
+					<li>开票信息</li>
+					<li>评价情况</li>
+				</ul>
+				<div class="layui-tab-content">
+					<div id="view" class="layui-tab-item layui-show">
+						<!--<ul class="details-item">
+							<li class="details-list">
+								<span class="pull-left">车架号</span>
+								<span class="pull-right">CXJ2013123456</span>
+							</li>
+							<li class="details-list">
+								<span class="pull-left">里程数</span>
+								<span class="pull-right">CXJ2013123456</span>
+							</li>
+							<li class="details-list">
+								<span class="pull-left">来源渠道</span>
+								<span class="pull-right">CXJ2013123456</span>
+							</li>
+							<li class="details-list">
+								<span class="pull-left">渠道用户ID</span>
+								<span class="pull-right">CXJ2013123456</span>
+							</li>
+							<li class="details-list">
+								<span class="pull-left">订单金额</span>
+								<span class="pull-right">CXJ2013123456</span>
+							</li>
+							<li class="details-list">
+								<span class="pull-left">订单时间</span>
+								<span class="pull-right">CXJ2013123456</span>
+							</li>
+							<li class="details-list">
+								<span class="pull-left">订单状态</span>
+								<span class="pull-right">CXJ2013123456</span>
+							</li>
+							<li class="details-list">
+								<span class="pull-left">门店名称</span>
+								<span class="pull-right">CXJ2013123456</span>
+							</li>
+							<li class="details-list">
+								<span class="pull-left">门店手机号</span>
+								<span class="pull-right">CXJ2013123456</span>
+							</li>
+						</ul>-->
+					</div>
+					<div id="view1" class="layui-tab-item">
+						<!--<table class="layui-table">
+							<thead>
+								<tr>
+									<th>服务内容</th>
+									<th>单价</th>
+									<th>数量</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>贤心</td>
+									<td>2016-11-29</td>
+									<td>人生就像是一场修行</td>
+								</tr>
+								<tr>
+									<td>贤心</td>
+									<td>2016-11-29</td>
+									<td>人生就像是一场修行</td>
+								</tr>
+								<tr>
+									<td>贤心</td>
+									<td>2016-11-29</td>
+									<td>人生就像是一场修行</td>
+								</tr>
+							</tbody>
+						</table>-->
+					</div>
+					<div id="view2" class="layui-tab-item">
+						<!--<ul class="details-item">
+							<li class="details-list">
+								<span class="pull-left">单位名称</span>
+								<span class="pull-right">CXJ2013123456</span>
+							</li>
+							<li class="details-list">
+								<span class="pull-left">纳税人识别码</span>
+								<span class="pull-right">CXJ2013123456</span>
+							</li>
+							<li class="details-list">
+								<span class="pull-left">注册地址</span>
+								<span class="pull-right">CXJ2013123456</span>
+							</li>
+							<li class="details-list">
+								<span class="pull-left">注册电话</span>
+								<span class="pull-right">CXJ2013123456</span>
+							</li>
+							<li class="details-list">
+								<span class="pull-left">开户银行</span>
+								<span class="pull-right">CXJ2013123456</span>
+							</li>
+							<li class="details-list">
+								<span class="pull-left">银行账户</span>
+								<span class="pull-right">CXJ2013123456</span>
+							</li>
+							<li class="details-list">
+								<span class="pull-left">配送地址</span>
+								<span class="pull-right">CXJ2013123456</span>
+							</li>
+							<li class="details-list">
+								<span class="pull-left">联系人</span>
+								<span class="pull-right">CXJ2013123456</span>
+							</li>
+							<li class="details-list">
+								<span class="pull-left">联系电话</span>
+								<span class="pull-right">CXJ2013123456</span>
+							</li>
+						</ul>-->
+					</div>
+					<div id="view3" class="layui-tab-item">
+						<!--<ul class="details-item">
+							<li class="details-list">
+								<span class="pull-left">服务态度</span>
+								<span class="pull-right">CXJ2013123456</span>
+							</li>
+							<li class="details-list">
+								<span class="pull-left">技术能力</span>
+								<span class="pull-right">CXJ2013123456</span>
+							</li>
+							<li class="details-list">
+								<span class="pull-left">店面环境</span>
+								<span class="pull-right">CXJ2013123456</span>
+							</li>
+							<li class="details-list">
+								<span class="pull-left">服务效率</span>
+								<span class="pull-right">CXJ2013123456</span>
+							</li>
+							<li class="details-list">
+								<span class="pull-left">总体评价</span>
+								<span class="pull-right">CXJ2013123456</span>
+							</li>
+							<li class="details-list">
+								<span class="pull-left">评价内容</span>
+								<span class="pull-right">CXJ2013123456</span>
+							</li>
+						</ul>-->
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--details-->
+
+		<script id="demo" type="text/html">
+			<ul class="details-item">
+				<li class="details-list">
+					<span class="pull-left">车架号</span>
+					<span class="pull-right">{{ d.vin == null?"":d.vin }}</span>
+				</li>
+				<li class="details-list">
+					<span class="pull-left">里程数</span>
+					<span class="pull-right">{{ d.mileage == null?"":d.mileage }}</span>
+				</li>
+				<li class="details-list">
+					<span class="pull-left">来源渠道</span>
+					<span class="pull-right">{{ d.accessChannelName == null?"":d.accessChannelName }}</span>
+				</li>
+				<li class="details-list">
+					<span class="pull-left">渠道用户ID</span>
+					<span class="pull-right">{{ d.accessChannelId == null?"":d.accessChannelId }}</span>
+				</li>
+				<li class="details-list">
+					<span class="pull-left">订单金额</span>
+					<span class="pull-right">{{ d.money == null?"":d.money }}</span>
+				</li>
+				<li class="details-list">
+					<span class="pull-left">订单时间</span>
+					<span class="pull-right">{{ new Date(d.createTime).getFullYear() + '-' + (new Date(d.createTime).getMonth()+1) + '-' + new Date(d.createTime).getDate()}}</span>
+				</li>
+				<li class="details-list">
+					<span class="pull-left">订单状态</span>
+					<span class="pull-right">{{ d.status }}</span>
+				</li>
+				<li class="details-list">
+					<span class="pull-left">门店名称</span>
+					<span class="pull-right">{{ d.shopName == null?"":d.shopName }}</span>
+				</li>
+				<li class="details-list">
+					<span class="pull-left">门店手机号</span>
+					<span class="pull-right">{{ d.shopPhone == null?"":d.shopPhone }}</span>
+				</li>
+			</ul>
+		</script>
+		<script id="demo1" type="text/html">
+			<table class="layui-table">
+				<thead>
+					<tr>
+						<th>服务内容</th>
+						<th>单价</th>
+						<th>数量</th>
+					</tr>
+				</thead>
+				<tbody>
+					{{# layui.each(d, function(index, item){ }} {{# layui.each(item.orderServicePackItems, function(index, data){ }}
+					<tr>
+						<td>{{ data.name == null?"":data.name }}</td>
+						<td>{{ data.price == null?"":data.price }}</td>
+						<td>{{ data.num == null?"":data.num }}</td>
+					</tr>
+					{{# }); }} {{# }); }} {{# if(d.length === 0){ }} 无数据 {{# } }}
+				</tbody>
+			</table>
+		</script>
+		<script id="demo2" type="text/html">
+			<ul class="details-item">
+				<li class="details-list">
+					<span class="pull-left">单位名称</span>
+					<span class="pull-right">{{ d.company == null?"":d.company }}</span>
+				</li>
+				<li class="details-list">
+					<span class="pull-left">纳税人识别码</span>
+					<span class="pull-right">{{ d.taxNo == null?"":d.taxNo }}</span>
+				</li>
+				<li class="details-list">
+					<span class="pull-left">注册地址</span>
+					<span class="pull-right">{{ d.companyAddr == null?"":d.companyAddr }}</span>
+				</li>
+				<!--<li class="details-list">
+					<span class="pull-left">注册电话</span>
+					<span class="pull-right">{{ d.companyPhone == null?"":d.companyPhone }}</span>
+				</li>-->
+				<li class="details-list">
+					<span class="pull-left">开户银行</span>
+					<span class="pull-right">{{ d.bank == null?"":d.bank }}</span>
+				</li>
+				<li class="details-list">
+					<span class="pull-left">银行账户</span>
+					<span class="pull-right">{{ d.bankAccount == null?"":d.bankAccount }}</span>
+				</li>
+				<li class="details-list">
+					<span class="pull-left">配送地址</span>
+					<span class="pull-right">{{ d.deliverAddr == null?"":d.deliverAddr }}</span>
+				</li>
+				<li class="details-list">
+					<span class="pull-left">联系人</span>
+					<span class="pull-right">{{ d.ptc == null?"":d.ptc }}</span>
+				</li>
+				<li class="details-list">
+					<span class="pull-left">联系电话</span>
+					<span class="pull-right">{{ d.phone == null?"":d.phone }}</span>
+				</li>
+			</ul>
+		</script>
+		<script id="demo3" type="text/html">
+			<ul class="details-item">
+				<li class="details-list">
+					<span class="pull-left">服务态度</span>
+					<span class="pull-right">{{ d.attitude == null?"":d.attitude }}</span>
+				</li>
+				<li class="details-list">
+					<span class="pull-left">技术能力</span>
+					<span class="pull-right">{{ d.skill == null?"":d.skill }}</span>
+				</li>
+				<li class="details-list">
+					<span class="pull-left">店面环境</span>
+					<span class="pull-right">{{ d.environment == null?"":d.environment }}</span>
+				</li>
+				<li class="details-list">
+					<span class="pull-left">服务效率</span>
+					<span class="pull-right">{{ d.efficiency == null?"":d.efficiency }}</span>
+				</li>
+				<li class="details-list">
+					<span class="pull-left">总体评价</span>
+					<span class="pull-right">{{ d.overallEvaluation == 0?"满意":"不满意" }}</span>
+				</li>
+				<li class="details-list">
+					<span class="pull-left">评价内容</span>
+					<span class="pull-right">{{ d.content == null?"":d.content }}</span>
+				</li>
+			</ul>
+		</script>
+
+		<script src="layui/layui.js"></script>
+		<script type="text/javascript" src="js/base.js"></script>
+		<script>
+			layui.use(['layer', 'form', 'laydate', 'element', 'laytpl', 'laypage'], function() { //引入layer模块
+				var $ = layui.jquery; //引入jquery
+				//var layer = layui.layer;
+				var form = layui.form();
+				var laydate = layui.laydate;
+				var element = layui.element();
+				var laytpl = layui.laytpl;
+				var laypage = layui.laypage;
+
+				var token = sessionStorage.getItem('token');
+				var user = sessionStorage.getItem('user');
+				var exp = sessionStorage.getItem('exp');
+				var now = new Date().getTime();
+				var time = parseInt(((exp - now) / 1000 - 600) * 1000);
+				setTimeout(function() {
+					$.ajax({
+						type: "post",
+						url: "http://inf.kuaicarkeep.com/console/logon/refreshToken",
+						data: token,
+						contentType: "text/plain",
+						dataType: "json",
+						success: function(data) {
+							var newToken = data.data;
+							var base64Str = newToken.split('.')[1];
+							var base = new Base64();
+							var result2 = base.decode(base64Str);
+							result2 = result2.substring(result2.indexOf("{"));
+							result2 = result2.substring(0, result2.lastIndexOf("}") + 1);
+							var result2 = JSON.parse(result2);
+							var newexp = new Date(result2.exp * 1000).getTime();
+							sessionStorage.setItem('exp', newexp);
+							sessionStorage.setItem('token', newToken);
+							token = newToken;
+							exp = newexp;
+						}
+					});
+				}, time);
+				$("#user").html(user);
+				if(!token) {
+					location.href = 'login.html';
+				}
+
+				var orderStatus = {
+					"UNPAYED": "未支付",
+					"PAYED": "已支付",
+					"SERVICED": "已服务",
+					"CONFIRMED": "已确认",
+					"EVALUATED": "已完成",
+					"REFUNDED": "已退款",
+					"CANCELED": "已取消",
+					"REFUNDED_OFF_LINE": "线下退款"
+				}
+
+				var dataList1 = {
+					pageIndex:0,
+					pageSize:20,
+					startIndex:0,
+					status:null,
+					needInvoice:null,
+					vin:"",
+					shopName:"",
+					shopPhone:"",
+					beginTime:"",
+					endTime:""
+				};
+				var dataList = JSON.stringify(dataList1);
+				load();//默认显示全部数据
+				var pages = {
+					cont: 'laypage',
+					pages: 3, //得到总页数
+					jump: function(obj) {
+						if(!pageBtn) {
+							return;
+						}
+						var curr = obj.curr;
+						dataList1.pageIndex = parseInt(curr - 1);
+						dataList = JSON.stringify(dataList1);
+						load();
+					}
+				};
+				var laypage1;
+				var pageBtn = false;
+
+				var layer1;
+				$("#search-btn").click(function() {
+					layer1 = layer.open({
+						type: 1,
+						title: '搜索',
+						closeBtn: 2,
+						area: ['500px'],
+						shadeClose: true,
+						maxmin: true,
+						content: $('#search')
+					});
+				})
+
+				form.on('submit(formDemo)', function(data) {
+					pageBtn = false;
+					pages.curr = 1;
+					if(data.field.status == "") {
+						data.field.status = null;
+					}else{
+						var status = data.field.status;
+						data.field.status = [];
+						data.field.status.push(status);
+					}
+					if(data.field.needInvoice == "") {
+						data.field.needInvoice = null;
+					} else if(data.field.needInvoice == "0") {
+						data.field.needInvoice = true;
+					} else if(data.field.needInvoice == "1") {
+						data.field.needInvoice = false;
+					}
+					data.field.pageIndex = 0;
+					data.field.pageSize = 20;
+					data.field.startIndex = 0;
+					dataList1 = data.field;
+					dataList = JSON.stringify(data.field);
+					//console.log(dataList);
+					load();
+					return false;
+				});
+
+				function load() {
+					token = sessionStorage.getItem('token');
+					$('#order-table').html('');
+					$.ajax({
+						type: "post",
+						url: "http://inf.kuaicarkeep.com/console/order/queryList",
+						headers: {
+							'Authorization': 'Bearer ' + token
+						},
+						contentType: 'application/json',
+						dataType: "json",
+						data: dataList,
+						success: function(data) {
+							//console.log(data);
+							var data1 = data.data;
+							pages.pages = data1.pageCount;
+							//console.log(data1.list);
+							if(data1.list.length != 0) {
+								var tr = '';
+								$(data1.list).each(function(index, data) {
+									var orderBill = data.orderBill == null ? "未开票" : "开票";
+									tr += '<tr data-orderid=' + data.id + '>';
+									tr += '<td>' + (data.orderNo==null?"":data.orderNo) + '</td>';
+									tr += '<td>' + (data.car.vin==null?"":data.car.vin) + '</td>';
+									tr += '<td>' + (data.money==null?"":data.money) + '</td>';
+									tr += '<td>' + new Date(data.createTime).getFullYear() + '-' + (new Date(data.createTime).getMonth()+1) + '-' + new Date(data.createTime).getDate() + '</td>';
+									tr += '<td>' + orderStatus[data.status] + '</td>';
+									tr += '<td>' + orderBill + '</td>';
+									tr += '<td>' + (data.shop==null?"":data.shop.name) + '</td>';
+									tr += '<td>' + (data.shop==null?"":data.shop.phone) + '</td>';
+									tr += '</tr>';
+								})
+								var table = '<table class="layui-table">' +
+									'<thead>' +
+									'<tr>' +
+									'<th>订单编号</th>' +
+									'<th>车架号</th>' +
+									'<th>订单金额</th>' +
+									'<th>订单时间</th>' +
+									'<th>订单状态</th>' +
+									'<th>是否开票</th>' +
+									'<th>门店名称</th>' +
+									'<th>门店手机号</th>' +
+									'</tr>' +
+									'</thead>' +
+									'<tbody>' + tr +
+									'</tbody>' +
+									'</table>';
+								$('#order-table').append(table);
+								if(!pageBtn) {
+									laypage1 = laypage(pages);
+								}
+								pageBtn = true;
+							} else {
+								$('#order-table').html('暂无数据');
+							}
+							if(layer1) {
+								layer.close(layer1);
+								layer1 = null;
+							}
+
+						},
+						error: function(data) {
+							//console.log(data);
+						}
+					});
+				}
+
+				$(document).on('click', '#order-table tbody tr', function() {
+					$('#view3').html('');
+					$('#view2').html('');
+					var orderid = $(this).attr('data-orderid');
+					//console.log(orderid);
+					token = sessionStorage.getItem('token');
+					$.ajax({
+						type: "post",
+						url: "http://inf.kuaicarkeep.com/console/order/orderDetail?orderId=" + orderid,
+						headers: {
+							'Authorization': 'Bearer ' + token
+						},
+						contentType: 'application/json',
+						dataType: "json",
+						success: function(data) {
+							var order = data.data;
+							var orderDetails = {};
+							var total = 0;
+							if(order.shopId == null){
+								total+=1;
+							}
+							//console.log(order);
+							//基本信息
+							$.ajax({
+								type: "post",
+								url: "http://inf.kuaicarkeep.com/console/order/orderDetail",
+								data: {
+									"orderId": order.id
+								},
+								headers: {
+									'Authorization': 'Bearer ' + token
+								},
+								dataType: "json",
+								success: function(data) {
+									var data = data.data;
+									//console.log(data);
+									var status = data.status;
+									var carId = data.carId;
+									var shopId = data.shopId;
+									orderDetails.money = data.money;
+									orderDetails.status = orderStatus[status];
+									orderDetails.mileage = data.mileage;
+									//console.log(data);
+									orderDetails.createTime = new Date(data.createTime).getFullYear() + '-' + (new Date(data.createTime).getMonth()+1) + '-' + new Date(data.createTime).getDate();
+									
+
+									//渠道信息
+									$.ajax({
+										type: "post",
+										url: "http://inf.kuaicarkeep.com/accessChannel/queryAccessChannel",
+										data: {
+											"id": data.accessChannelId,
+										},
+										headers: {
+											'Authorization': 'Bearer ' + token
+										},
+										dataType: "json",
+										success: function(data) {
+											total ++ ;
+											var data = data.data;
+											orderDetails.accessChannelId = data.id;
+											orderDetails.accessChannelName = data.name;
+											if( total >=3){
+												var getTpl = demo.innerHTML;
+												laytpl(getTpl).render(orderDetails, function(html) {
+													view.innerHTML = html;
+												});
+												layer.open({
+													type: 1,
+													title: '详情',
+													closeBtn: 2,
+													area: ['500px','400px'],
+													shadeClose: true,
+													maxmin: true,
+													content: $('#details')
+												});
+											}
+										}
+									});
+									//车辆信息
+									$.ajax({
+										type: "post",
+										url: "http://inf.kuaicarkeep.com/car/queryCar",
+										data: {
+											"id": carId,
+											"isComplete": true
+										},
+										headers: {
+											'Authorization': 'Bearer ' + token
+										},
+										dataType: "json",
+										success: function(data) {
+											total ++ ;
+											var data = data.data;
+											orderDetails.vin = data.vin;
+											if( total >=3){
+												var getTpl = demo.innerHTML;
+												laytpl(getTpl).render(orderDetails, function(html) {
+													view.innerHTML = html;
+												});
+												layer.open({
+													type: 1,
+													title: '详情',
+													closeBtn: 2,
+													area: ['500px','400px'],
+													shadeClose: true,
+													maxmin: true,
+													content: $('#details')
+												});
+											}
+										}
+									});
+									
+									if( order.shopId !=  null){
+										//店铺信息
+										$.ajax({
+											type: "post",
+											url: "http://inf.kuaicarkeep.com/shop/queryShop",
+											data: {
+												"id": shopId,
+											},
+											headers: {
+												'Authorization': 'Bearer ' + token
+											},
+											dataType: "json",
+											success: function(data) {
+												var data = data.data;
+												total++;
+												//console.log(data);
+												orderDetails.shopName = data.name;
+												orderDetails.shopPhone = data.phone;
+												if( total >=3){
+													var getTpl = demo.innerHTML;
+													laytpl(getTpl).render(orderDetails, function(html) {
+														view.innerHTML = html;
+													});
+													layer.open({
+														type: 1,
+														title: '详情',
+														closeBtn: 2,
+														area: ['500px','400px'],
+														shadeClose: true,
+														maxmin: true,
+														content: $('#details')
+													});
+												}
+												
+											}
+										});
+
+									}
+									
+								}
+							});
+
+							//评价详情
+							$.ajax({
+								type: "post",
+								url: "http://inf.kuaicarkeep.com/order/queryOrderEvaluation",
+								data: {
+									"orderId": order.id
+								},
+								headers: {
+									'Authorization': 'Bearer ' + token
+								},
+								dataType: "json",
+								success: function(data) {
+									var data = data.data;
+									if(data != null){
+										var getTpl = demo3.innerHTML;
+										laytpl(getTpl).render(data, function(html) {
+											view3.innerHTML = html;
+										});
+									}
+									
+								}
+							});
+							//订单发票
+							$.ajax({
+								type: "post",
+								url: "http://inf.kuaicarkeep.com/order/queryOrderBill",
+								data: {
+									"orderId": order.id
+								},
+								headers: {
+									'Authorization': 'Bearer ' + token
+								},
+								dataType: "json",
+								success: function(data) {
+									var data = data.data;
+									if( data != null){
+										var getTpl = demo2.innerHTML;
+										laytpl(getTpl).render(data, function(html) {
+											view2.innerHTML = html;
+										});
+									}
+									
+								}
+							});
+
+							//服务信息
+							$.ajax({
+								type: "post",
+								url: "http://inf.kuaicarkeep.com/order/queryServicePack",
+								data: {
+									"orderId": order.id,
+									"needItems": true
+								},
+								headers: {
+									'Authorization': 'Bearer ' + token
+								},
+								dataType: "json",
+								success: function(data) {
+									var data = data.data;
+									if(data != null){
+										var getTpl = demo1.innerHTML;
+										laytpl(getTpl).render(data, function(html) {
+											view1.innerHTML = html;
+										})
+									}
+									
+								}
+							});
+
+						},
+						error: function(data) {
+
+						}
+					});
+				})
+
+			});
+
+			//login模板
+			layui.config({
+				base: './js/'
+			}).use('login');
+			//logout模板
+			layui.config({
+				base: './js/'
+			}).use('logout');
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>车辆管理</title>
+		<link rel="stylesheet" type="text/css" href="layui/css/layui.css" />
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+	</head>
+
+	<body>
+		<!--admin-->
+		<div class="layui-layout layui-layout-admin">
+			<div class="layui-header">
+				<ul class="layui-nav index-nav">
+					<li class="layui-nav-item">
+						<a href="javascript:;">你好，<span id="user"></span>，欢迎回来</a>
+					</li>
+					<!--<li class="layui-nav-item">
+						<a id="update-btn" href="javascript:;">修改密码</a>
+					</li>-->
+					<li class="layui-nav-item">
+						<a id="logout" href="javascript:;">注销</a>
+					</li>
+				</ul>
+			</div>
+			<div class="layui-side layui-bg-black">
+				<div class="layui-side-scroll">
+					<ul class="layui-nav layui-nav-tree site-demo-nav">
+						<li class="layui-nav-item layui-this">
+							<a href="index.html">车辆管理</a>
+						</li>
+						<li class="layui-nav-item">
+							<a href="order.html">订单管理</a>
+						</li>
+						<li class="layui-nav-item">
+							<a href="store.html">门店结算管理</a>
+						</li>
+						<li class="layui-nav-item">
+							<a href="project.html">服务商结算</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="layui-body">
+				<div class="layui-main">
+					<blockquote class="layui-elem-quote">
+						<button class="layui-btn" id="search-btn">搜索</button>
+					</blockquote>
+					<div id="indexTable">
+						<!--<table class="layui-table">
+						<thead>
+							<tr>
+								<th>品牌</th>
+								<th>厂家</th>
+								<th>车型</th>
+								<th>车架号</th>
+								<th>生效时间</th>
+								<th>失效时间</th>
+								<th>首次保养时间</th>
+								<th>订单状态</th>
+								<th>订单金额</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>贤心</td>
+								<td>2016-11-29</td>
+								<td>人生就像是一场修行</td>
+								<td>贤心</td>
+								<td>2016-11-29</td>
+								<td>人生就像是一场修行</td>
+								<td>贤心</td>
+								<td>2016-11-29</td>
+								<td>人生就像是一场修行</td>
+							</tr>
+							<tr>
+								<td>贤心</td>
+								<td>2016-11-29</td>
+								<td>人生就像是一场修行</td>
+								<td>贤心</td>
+								<td>2016-11-29</td>
+								<td>人生就像是一场修行</td>
+								<td>贤心</td>
+								<td>2016-11-29</td>
+								<td>人生就像是一场修行</td>
+							</tr>
+							<tr>
+								<td>贤心</td>
+								<td>2016-11-29</td>
+								<td>人生就像是一场修行</td>
+								<td>贤心</td>
+								<td>2016-11-29</td>
+								<td>人生就像是一场修行</td>
+								<td>贤心</td>
+								<td>2016-11-29</td>
+								<td>人生就像是一场修行</td>
+							</tr>
+						</tbody>
+					</table>-->
+					</div>
+
+				</div>
+				<div class="laypage" id="laypage">
+				</div>
+				<div class="layui-footer"></div>
+
+			</div>
+			<!--admin-->
+
+			<!--search-->
+			<div class="search">
+				<form class="layui-form" action="">
+					<div class="layui-form-item">
+						<label class="layui-form-label">车架号</label>
+						<div class="layui-input-block">
+							<input type="text" name="vin" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<div class="layui-inline">
+							<label class="layui-form-label">生效时间</label>
+							<div class="layui-input-inline" style="width: 100px;">
+								<input type="text" onclick="laydate({elem: this, festival: true})" name="effectTimeBegin" autocomplete="off" class="layui-input">
+							</div>
+							<div class="layui-form-mid">-</div>
+							<div class="layui-input-inline" style="width: 100px;">
+								<input type="text" onclick="laydate({elem: this, festival: true})" name="effectTimeEnd" autocomplete="off" class="layui-input">
+							</div>
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<div class="layui-inline">
+							<label class="layui-form-label">失效时间</label>
+							<div class="layui-input-inline" style="width: 100px;">
+								<input type="text" onclick="laydate({elem: this, festival: true})" name="expiresBegin" autocomplete="off" class="layui-input">
+							</div>
+							<div class="layui-form-mid">-</div>
+							<div class="layui-input-inline" style="width: 100px;">
+								<input type="text" onclick="laydate({elem: this, festival: true})" name="expiresEnd" autocomplete="off" class="layui-input">
+							</div>
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<div class="layui-inline">
+							<label class="layui-form-label">首次保养时间</label>
+							<div class="layui-input-inline" style="width: 100px;">
+								<input type="text" onclick="laydate({elem: this, festival: true})" name="firstMaintenanceTimeBegin" autocomplete="off" class="layui-input">
+							</div>
+							<div class="layui-form-mid">-</div>
+							<div class="layui-input-inline" style="width: 100px;">
+								<input type="text" onclick="laydate({elem: this, festival: true})" name="firstMaintenanceTimeEnd" autocomplete="off" class="layui-input">
+							</div>
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">订单状态</label>
+						<div class="layui-input-block">
+							<select name="status">
+								<option value=""></option>
+								<option value="UNPAYED">未支付</option>
+								<option value="PAYED">已支付</option>
+								<option value="SERVICED">已服务</option>
+								<option value="CONFIRMED">已确认</option>
+								<option value="EVALUATED">已完成</option>
+								<option value="REFUNDED">已退款</option>
+								<option value="CANCELED">已取消</option>
+								<option value="REFUNDED_OFF_LINE">线下退款</option>
+							</select>
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<div class="layui-input-block">
+							<button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+							<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!--search-->
+
+			<script id="table" type="text/html">
+				<table class="layui-table">
+					<thead>
+						<tr>
+							<th>品牌</th>
+							<th>厂家</th>
+							<th>车型</th>
+							<th>车架号</th>
+							<th>生效时间</th>
+							<th>失效时间</th>
+							<th>首次保养时间</th>
+							<th>订单状态</th>
+							<th>订单金额</th>
+						</tr>
+					</thead>
+					<tbody>
+						{{# layui.each(d, function(index, item){ }}
+						<tr>
+							<td>{{ item.carModel.series.carBrand.name == null?"":item.carModel.series.carBrand.name}}</td>
+							<td>{{ item.carModel.series.carFactory.name == null?"":item.carModel.series.name+item.carModel.series.carFactory.name}}</td>
+							<td>{{ item.carModel.name == null?"":item.carModel.name }}</td>
+							<td>{{ item.vin == null?"":item.vin }}</td>
+							<td>{{ item.effectTime == null?"":new Date(item.effectTime).getFullYear() + '-' + (new Date(item.effectTime).getMonth()+1) + '-' + new Date(item.effectTime).getDate() }}</td>
+							<td>{{ item.expires == null?"":new Date(item.expires).getFullYear() + '-' + (new Date(item.expires).getMonth()+1) + '-' + new Date(item.expires).getDate()  }}</td>
+							<td>{{ item.firstMaintenanceTime == null?"":new Date(item.firstMaintenanceTime).getFullYear() + '-' + (new Date(item.firstMaintenanceTime).getMonth()+1) + '-' + new Date(item.firstMaintenanceTime).getDate() }}</td>
+							<td>{{# if(item.firstOrderStatus == "UNPAYED"){ }} 未支付 {{# } }}
+							{{# if(item.firstOrderStatus == "PAYED"){ }} 已支付 {{# } }}
+							{{# if(item.firstOrderStatus == "SERVICED"){ }} 已服务 {{# } }}
+							{{# if(item.firstOrderStatus == "CONFIRMED"){ }} 已确认 {{# } }}
+							{{# if(item.firstOrderStatus == "EVALUATED"){ }} 已完成 {{# } }}
+							{{# if(item.firstOrderStatus == "REFUNDED"){ }} 已退款 {{# } }}
+							{{# if(item.firstOrderStatus == "CANCELED"){ }} 已取消 {{# } }}
+							{{# if(item.firstOrderStatus == "REFUNDED_OFF_LINE"){ }} 线下退款 {{# } }}</td>
+							<td>{{ item.firstMaintenanceMoney == null?"":item.firstMaintenanceMoney }}</td>
+						</tr>
+						{{# }); }} {{# if(d.length === 0){ }} 无数据 {{# } }}
+					</tbody>
+				</table>
+			</script>
+
+			<script src="layui/layui.js"></script>
+			<script type="text/javascript" src="js/base.js" ></script>
+			<script>
+				layui.use(['layer', 'form', 'laydate', 'element', 'laytpl', 'laypage'], function() { //引入layer模块
+					var $ = layui.jquery; //引入jquery
+					var layer = layui.layer;
+					var form = layui.form();
+					var laydate = layui.laydate;
+					var element = layui.element();
+					var laytpl = layui.laytpl;
+					var laypage = layui.laypage;
+					
+					var token = sessionStorage.getItem('token');
+					var user = sessionStorage.getItem('user');
+					var exp = sessionStorage.getItem('exp');
+					var now = new Date().getTime();
+					var time = parseInt(((exp - now) / 1000 - 600) * 1000);
+					setTimeout(function() {
+						$.ajax({
+							type: "post",
+							url: "http://inf.kuaicarkeep.com/console/logon/refreshToken",
+							data: token,
+							contentType: "text/plain",
+							dataType: "json",
+							success: function(data) {
+								var newToken = data.data;
+								var base64Str = newToken.split('.')[1];
+								var base = new Base64();
+								var result2 = base.decode(base64Str);
+								result2 = result2.substring(result2.indexOf("{"));
+								result2 = result2.substring(0, result2.lastIndexOf("}") + 1);
+								var result2 = JSON.parse(result2);
+								var newexp = new Date(result2.exp * 1000).getTime();
+								sessionStorage.setItem('exp', newexp);
+								sessionStorage.setItem('token', newToken);
+								token = newToken;
+								exp = newexp;
+							}
+						});
+					}, time);
+					$("#user").html(user);
+					if(!token) {
+						location.href = 'login.html';
+					}
+
+
+					var dataList1 = {
+						pageIndex:0,
+						pageSize:20,
+						startIndex:0,
+						status:null,
+						vin:"",
+						effectTimeBegin:"",
+						effectTimeEnd:"",
+						expiresBegin:"",
+						expiresEnd:"",
+						firstMaintenanceTimeBegin:"",
+						firstMaintenanceTimeEnd:""	
+					};
+					var dataList = JSON.stringify(dataList1);
+					load();//默认显示全部数据
+					var pages = {
+						cont: 'laypage',
+						pages: 3, //得到总页数
+						jump: function(obj) {
+							if(!pageBtn) {
+								return;
+							}
+							var curr = obj.curr;
+							dataList1.pageIndex = parseInt(curr - 1);
+							dataList = JSON.stringify(dataList1);
+							load();
+						}
+					};
+					var laypage1;
+					var pageBtn = false;
+
+					var layer1;
+
+					$("#search-btn").click(function() {
+						layer1 = layer.open({
+							type: 1,
+							title: '搜索',
+							closeBtn: 2,
+							area: ['500px'],
+							shadeClose: true,
+							maxmin: true,
+							content: $('.search')
+						});
+					})
+
+					form.on('submit(formDemo)', function(data) {
+						pageBtn = false;
+						pages.curr = 1;
+						if(data.field.status == "") {
+							data.field.status = null;
+						}else{
+							var status = data.field.status;
+							data.field.status = [];
+							data.field.status.push(status);
+						}
+						data.field.pageIndex = 0;
+						data.field.pageSize = 20;
+						data.field.startIndex = 0;
+						dataList1 = data.field;
+						dataList = JSON.stringify(data.field);
+						console.log(dataList);
+						load();
+						return false;
+					});
+
+					function load() {
+						token = sessionStorage.getItem('token');
+						$.ajax({
+							type: "post",
+							url: "http://inf.kuaicarkeep.com/console/car/queryList",
+							headers: {
+								'Authorization':'Bearer '+ token
+							},
+							contentType:'application/json',
+							dataType: "json",
+							data: dataList,
+							success: function(data) {
+								var data1 = data.data;
+								pages.pages = data1.pageCount;
+								console.log(data1);
+								if(data1.list.length != 0){
+									var getTpl = table.innerHTML;
+									laytpl(getTpl).render(data1.list, function(html) {
+										indexTable.innerHTML = html;
+									});
+									if(!pageBtn) {
+										laypage1 = laypage(pages);
+									}
+									pageBtn = true;
+								}else{
+									$('#indexTable').html('暂无数据');
+								}
+								if(layer1) {
+									layer.close(layer1);
+									layer1 = null;
+								}
+								
+							},
+							error: function(data) {
+								//console.log(data);
+							}
+						});
+					}
+
+				});
+
+				//login模板
+				layui.config({
+					base: './js/'
+				}).use('login');
+				
+				//logout模板
+				layui.config({
+					base: './js/'
+				}).use('logout');
+				
+			</script>
+	</body>
+
+</html>

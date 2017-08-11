@@ -1,0 +1,55 @@
+html,body{
+	overflow: hidden;
+}
+.layui-nav.index-nav{
+	float: right;
+	background: transparent;
+}
+.layui-body{
+	overflow: auto;
+}
+.layui-main{
+	min-width: 1000px;
+}
+body .site-demo-nav .layui-nav-item{
+	line-height: 40px;
+}
+.search{
+	display: none;
+	padding: 10px;
+}
+.search .layui-form-label{
+	width: 90px;
+}
+.search .layui-input-block{
+	margin-left: 120px;
+}
+.details-container{
+	padding: 10px;
+	display: none;
+}
+.details-list{
+	line-height: 30px;
+}
+.details-list .pull-left{
+	display: inline-block;
+	width: 100px;
+	text-align: right;
+}
+.details-list .pull-right{
+	display: inline-block;
+	margin-left: 50px;
+}
+.update{
+	padding: 10px;
+}
+.laypage{
+	text-align: center;
+}
+[data-page].active{
+	background: #009688 !important;
+	color: #fff !important;
+}
+table tr:hover{
+	cursor: pointer;
+}

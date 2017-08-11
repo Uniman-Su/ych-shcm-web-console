@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>门店结算管理</title>
+		<link rel="stylesheet" type="text/css" href="layui/css/layui.css"/>
+		<link rel="stylesheet" type="text/css" href="css/style.css"/>
+	</head>
+	<body>
+		<!--admin-->
+		<div class="layui-layout layui-layout-admin">
+			<div class="layui-header">
+				<ul class="layui-nav index-nav">
+					<li class="layui-nav-item">
+						<a href="javascript:;">你好，<span id="user"></span>，欢迎回来</a>
+					</li>
+					<!--<li class="layui-nav-item">
+						<a id="update-btn" href="javascript:;">修改密码</a>
+					</li>-->
+					<li class="layui-nav-item">
+						<a id="logout" href="javascript:;">注销</a>
+					</li>
+				</ul>
+			</div>
+			<div class="layui-side layui-bg-black">
+				<div class="layui-side-scroll">
+					<ul class="layui-nav layui-nav-tree site-demo-nav">
+						<li class="layui-nav-item">
+							<a href="index.html">车辆管理</a>
+						</li>
+						<li class="layui-nav-item">
+							<a href="order.html">订单管理</a>
+						</li>
+						<li class="layui-nav-item layui-this">
+							<a href="store.html">门店结算管理</a>
+						</li>
+						<li class="layui-nav-item">
+							<a href="project.html">服务商结算</a>
+						</li>
+					</ul>
+				</div>	
+			</div>
+			<div class="layui-body">
+				<div class="layui-main">
+				<div id="storeTable">
+				<!--<table class="layui-table">
+						<thead>
+							<tr>
+								<th>结算日期</th>
+								<th>门店收益</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>贤心</td>
+								<td>2016-11-29</td>
+							</tr>
+							<tr>
+								<td>贤心</td>
+								<td>2016-11-29</td>
+							</tr>
+							<tr>
+								<td>贤心</td>
+								<td>2016-11-29</td>
+							</tr>
+						</tbody>
+					</table>-->
+				</div>
+				</div>
+				<div class="laypage" id="laypage"></div>
+			</div>
+			<div class="layui-footer"></div>
+		
+		</div>	
+		<!--admin-->
+		
+		<!--details-->
+			<div id="details" class="details-container">
+				<div class="layui-tab layui-tab-card">
+					<ul class="layui-tab-title">
+						<li class="layui-this">基本信息</li>
+					</ul>
+					<div class="layui-tab-content">
+						<div class="layui-tab-item layui-show">
+						<div id="detailsTable">
+							<!--<table class="layui-table">
+								<thead>
+									<tr>
+										<th>门店</th>
+										<th>门店收益</th>
+										<th>渠道手续费</th>
+										<th>服务商佣金</th>
+										<th>平台佣金</th>
+										<th>状态</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>贤心</td>
+										<td>2016-11-29</td>
+										<td>人生就像是一场修行</td>
+										<td>贤心</td>
+										<td>2016-11-29</td>
+										<td>人生就像是一场修行</td>
+										<td><button class="layui-btn">结算</button></td>
+									</tr>
+									<tr>
+										<td>贤心</td>
+										<td>2016-11-29</td>
+										<td>人生就像是一场修行</td>
+										<td>贤心</td>
+										<td>2016-11-29</td>
+										<td>人生就像是一场修行</td>
+										<td><button class="layui-btn">结算</button></td>
+									</tr>
+									<tr>
+										<td>贤心</td>
+										<td>2016-11-29</td>
+										<td>人生就像是一场修行</td>
+										<td>贤心</td>
+										<td>2016-11-29</td>
+										<td>人生就像是一场修行</td>
+										<td><button class="layui-btn">结算</button></td>
+									</tr>
+								</tbody>
+							</table>-->
+						</div>	
+						</div>
+						<div class="laypage" id="laypage1"></div>
+					</div>
+				</div>
+			</div>
+			<!--details-->
+			
+			<!--details-->
+			<div id="details1" class="details-container">
+				<div class="layui-tab layui-tab-card">
+					<ul class="layui-tab-title">
+						<li class="layui-this">明细数据</li>
+					</ul>
+					<div class="layui-tab-content">
+						<div class="layui-tab-item layui-show">
+							<div id="detailsTable1">
+							<!--<table class="layui-table">
+								<thead>
+									<tr>
+										<th>订单编号</th>
+										<th>支付流水号</th>
+										<th>订单金额</th>
+										<th>门店收益</th>
+										<th>渠道手续费</th>
+										<th>服务商佣金</th>
+										<th>平台佣金</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>贤心</td>
+										<td>2016-11-29</td>
+										<td>人生就像是一场修行</td>
+										<td>贤心</td>
+										<td>2016-11-29</td>
+										<td>人生就像是一场修行</td>
+										<td>贤心</td>
+									</tr>
+									<tr>
+										<td>贤心</td>
+										<td>2016-11-29</td>
+										<td>人生就像是一场修行</td>
+										<td>贤心</td>
+										<td>2016-11-29</td>
+										<td>人生就像是一场修行</td>
+										<td>贤心</td>
+									</tr>
+									<tr>
+										<td>贤心</td>
+										<td>2016-11-29</td>
+										<td>人生就像是一场修行</td>
+										<td>贤心</td>
+										<td>2016-11-29</td>
+										<td>人生就像是一场修行</td>
+										<td>贤心</td>
+									</tr>
+								</tbody>
+							</table>-->
+							</div>
+						</div>
+						<div class="laypage" id="laypage2"></div>
+					</div>
+				</div>
+			</div>
+			<!--details-->
+			
+		<script id="table" type="text/html">
+				<table class="layui-table">
+					<thead>
+							<tr>
+								<th>结算日期</th>
+								<th>门店收益</th>
+							</tr>
+						</thead>
+					<tbody>
+						{{# layui.each(d, function(index, item){ }}
+						<tr data-date={{ item.settleDate }}>
+								<td>{{ new Date(item.settleDate).getFullYear() + '-' + (new Date(item.settleDate).getMonth()+1) + '-' + new Date(item.settleDate).getDate()}}</td>
+								<td>{{ item.shopIncomes == null?"":item.shopIncomes }}</td>
+							</tr>
+						{{# }); }} {{# if(d.length === 0){ }} 无数据 {{# } }}
+					</tbody>
+				</table>
+			</script>
+			
+			<script id="detailsbox" type="text/html">
+				<table class="layui-table">
+					<thead>
+						<tr>
+							<th>门店</th>
+							<th>门店收益</th>
+							<th>渠道手续费</th>
+							<th>服务商佣金</th>
+							<th>平台佣金</th>
+							<th>状态</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						{{# layui.each(d, function(index, item){ }}
+						<tr data-date={{ item.settleDate }} data-shopid={{ item.shop.id }}>
+							<td>{{ item.shop.name == null?"":item.shop.name }}</td>
+							<td>{{ item.shopIncomes == null?"":item.shopIncomes }}</td>
+							<td>{{ item.channelFee == null?"":item.channelFee }}</td>
+							<td>{{ item.serviceProviderIncomes == null?"":item.serviceProviderIncomes }}</td>
+							<td>{{ item.platformIncomes == null?"":item.platformIncomes }}</td>
+							<td class="js">{{# if(item.status === "UNSETTLED"){ }} 未结算 {{# } }}
+								{{# if(item.status === "SETTLED"){ }} 已结算 {{# } }}
+							</td>
+							<td>{{# if(item.status === "UNSETTLED"){ }} <button data-id={{ item.id }} class="layui-btn">结算</button> {{# } }}
+								{{# if(item.status === "SETTLED"){ }} {{# } }}</td>
+						</tr>
+						{{# }); }} {{# if(d.length === 0){ }} 无数据 {{# } }}
+					</tbody>
+				</table>
+			</script>
+			
+			<script id="detailsbox1" type="text/html">
+				<table class="layui-table">
+					<thead>
+						<tr>
+							<th>订单编号</th>
+							<th>支付流水号</th>
+							<th>订单金额</th>
+							<th>门店收益</th>
+							<th>渠道手续费</th>
+							<th>服务商佣金</th>
+							<th>平台佣金</th>
+						</tr>
+					</thead>
+					<tbody>
+						{{# layui.each(d, function(index, item){ }}
+						<tr>
+							<td>{{ item.order.orderNo == null?"":item.order.orderNo }}</td>
+							<td>{{ item.payOrder.flowNo == null?"":item.payOrder.flowNo }}</td>
+							<td>{{ item.order.money == null?"":item.order.money }}</td>
+							<td>{{ item.shopIncomes == null?"":item.shopIncomes}}</td>
+							<td>{{ item.channelFee == null?"":item.channelFee }}</td>
+							<td>{{ item.serviceProviderIncomes == null?"":item.serviceProviderIncomes }}</td>
+							<td>{{ item.platformIncomes == null?"":item.platformIncomes }}</td>
+						</tr>
+						{{# }); }} {{# if(d.length === 0){ }} 无数据 {{# } }}
+					</tbody>
+				</table>
+			</script>	
+		
+		<script src="layui/layui.js"></script>
+		<script type="text/javascript" src="js/base.js" ></script>
+		<script>
+				layui.use(['layer', 'element', 'laytpl', 'laypage'], function() { //引入layer模块
+					var $ = layui.jquery; //引入jquery
+					var layer = layui.layer;
+					var element = layui.element();
+					var laytpl = layui.laytpl;
+					var laypage = layui.laypage;
+
+					var token = sessionStorage.getItem('token');
+					var user = sessionStorage.getItem('user');
+					var exp = sessionStorage.getItem('exp');
+					var now = new Date().getTime();
+					//console.log(token);
+					var time = parseInt(((exp - now) / 1000 - 600) * 1000);
+					setTimeout(function() {
+						$.ajax({
+							type: "post",
+							url: "http://inf.kuaicarkeep.com/console/logon/refreshToken",
+							data: token,
+							contentType: "text/plain",
+							dataType: "json",
+							success: function(data) {
+								var newToken = data.data;
+								var base64Str = newToken.split('.')[1];
+								var base = new Base64();
+								var result2 = base.decode(base64Str);
+								result2 = result2.substring(result2.indexOf("{"));
+								result2 = result2.substring(0, result2.lastIndexOf("}") + 1);
+								var result2 = JSON.parse(result2);
+								var newexp = new Date(result2.exp * 1000).getTime();
+								sessionStorage.setItem('exp', newexp);
+								sessionStorage.setItem('token', newToken);
+								token = newToken;
+								exp = newexp;
+							}
+						});
+					}, time);
+					$("#user").html(user);
+					if(!token) {
+						location.href = 'login.html';
+					}
+					
+					var dataList = {};
+					var dataList1 = {};
+					var dataList2 = {};
+					var dataList21 = {};
+					var dataList3 = {};
+					var dataList31 = {};
+					var pages = {
+						cont: 'laypage',
+						pages: 3, //得到总页数
+						jump: function(obj) {
+							if(!pageBtn) {
+								return;
+							}
+							var curr = obj.curr;
+							dataList1.pageIndex = parseInt(curr - 1);
+							dataList = JSON.stringify(dataList1);
+							load();
+						}
+					};
+					var pages1 = {
+						cont: 'laypage1',
+						pages: 3, //得到总页数
+						jump: function(obj) {
+							if(!pageBtn1) {
+								return;
+							}
+							var curr = obj.curr;
+							dataList21.pageIndex = parseInt(curr - 1);
+							dataList2 = JSON.stringify(dataList21);
+							load1();
+						}
+					};
+					var pages2 = {
+						cont: 'laypage2',
+						pages: 3, //得到总页数
+						jump: function(obj) {
+							if(!pageBtn2) {
+								return;
+							}
+							var curr = obj.curr;
+							dataList31.pageIndex = parseInt(curr - 1);
+							dataList3 = JSON.stringify(dataList31);
+							load2();
+						}
+					};
+					var laypage1;
+					var laypage2;
+					var laypage3;
+					var pageBtn = false;
+					var pageBtn1 = false;
+					var pageBtn2 = false;
+					var layer1;
+					var layer2;
+					
+					dataList1.pageIndex = 0;
+					dataList1.pageSize = 20;
+					dataList1.startIndex = 0;
+					dataList = JSON.stringify(dataList1);
+					
+					dataList21.pageIndex = 0;
+					dataList21.pageSize = 20;
+					dataList21.startIndex = 0;
+					dataList2 = JSON.stringify(dataList21);
+					
+					dataList31.pageIndex = 0;
+					dataList31.pageSize = 20;
+					dataList31.startIndex = 0;
+					dataList3 = JSON.stringify(dataList31);
+					//console.log(dataList);
+
+					load();
+
+					function load() {
+						$.ajax({
+							type: "post",
+							url: "http://inf.kuaicarkeep.com/console/shopSettle/queryList",
+							headers: {
+								'Authorization': 'Bearer ' + token
+							},
+							contentType:'application/json',
+							dataType: "json",
+							data: dataList,
+							success: function(data) {
+								pages.pages = data.data.pageCount;
+								var list = data.data.list;
+								//console.log(list);
+								if(list.length != 0){
+									var getTpl = table.innerHTML;
+									laytpl(getTpl).render(list, function(html) {
+										storeTable.innerHTML = html;
+									});
+									if(!pageBtn) {
+										laypage1 = laypage(pages);
+									}
+									pageBtn = true;
+								}else{
+									$('#storeTable').html('暂无数据');
+								}
+								
+							},
+							error: function(data) {
+								//console.log(data);
+							}
+						});
+					}
+					
+					function load1(){
+						$.ajax({
+							type: "post",
+							url: "http://inf.kuaicarkeep.com/console/shopSettle/queryDateList",
+							headers: {
+								'Authorization': 'Bearer ' + token
+							},
+							contentType:'application/json',
+							dataType: "json",
+							data:dataList2,
+							success: function(data) {
+								pages1.pages = data.data.pageCount;
+								var list = data.data.list;
+								console.log(list);
+								if(list.length != 0){
+									var getTpl = detailsbox.innerHTML;
+									laytpl(getTpl).render(list, function(html) {
+										detailsTable.innerHTML = html;
+									});
+									if(!pageBtn1) {
+										laypage2 = laypage(pages1);
+									}
+									pageBtn1 = true;
+										layer1=layer.open({
+											type: 1,
+											title: '',
+											closeBtn: 2,
+											area: ['1200px'],
+											shadeClose: true,
+											maxmin: true,
+											content: $('#details')
+										});
+								}else{
+									$('#detailsTable').html('暂无数据');
+								}
+								
+							},
+							error: function(data) {
+								//console.log(data);
+							}
+						});
+					}
+					
+					function load2(){
+						$.ajax({
+							type: "post",
+							url: "http://inf.kuaicarkeep.com/console/shopSettle/queryDetailList",
+							headers: {
+								'Authorization':'Bearer '+token
+							},
+							contentType:'application/json',
+							dataType: "json",
+							data:dataList3,
+							success: function(data) {
+								pages2.pages = data.data.pageCount;
+								var list = data.data.list;
+								if(list.length != 0){
+									var getTpl = detailsbox1.innerHTML;
+									laytpl(getTpl).render(list, function(html) {
+										detailsTable1.innerHTML = html;
+									});
+									if(!pageBtn2) {
+										laypage3 = laypage(pages2);
+									}
+									pageBtn2 = true;
+										layer2=layer.open({
+											type: 1,
+											title: '',
+											closeBtn: 2,
+											area: ['1200px'],
+											shadeClose: true,
+											maxmin: true,
+											content: $('#details1')
+										});
+								}else{
+									$('#detailsTable1').html('暂无数据');
+								}
+								
+							},
+							error: function(data) {
+								//console.log(data);
+							}
+						});
+					}
+					$(document).on('click','#storeTable tbody tr',function(){
+						token = sessionStorage.getItem('token');
+						pageBtn1 = false;
+						pages1.curr = 1;
+						var dataDate = $(this).attr('data-date');
+						dataList21.settleDate = dataDate;
+						dataList2 = JSON.stringify(dataList21);
+						load1();
+					})
+					
+					$(document).on('click','#detailsTable .layui-btn',function(event){
+						token = sessionStorage.getItem('token');
+						event.stopPropagation();
+						var _this = $(this);
+						var id = $(this).attr('data-id');
+						var js = $(this).parents('tr').find('.js');
+						$.ajax({
+							type: "post",
+							url: "http://inf.kuaicarkeep.com/console/shopSettle/settledDateData",
+							headers: {
+								'Authorization':'Bearer '+token
+							},
+							dataType: "json",
+							data:{
+								"id":id
+							},
+							success:function(data){
+								console.log(data);
+								if(data.result == "Succeeded"){
+									js.text('已结算');
+								   _this.remove();
+								}
+							}
+						});
+					})
+					
+					
+					$(document).on('click','#detailsTable tbody tr',function(){
+						token = sessionStorage.getItem('token');
+						pageBtn2 = false;
+						pages2.curr = 1;
+						var shopId = $(this).attr('data-shopid');
+						var dataDate = $(this).attr('data-date');
+						dataList31.shopId = shopId;
+						dataList31.settleDate = dataDate;
+						dataList3 = JSON.stringify(dataList31);
+						load2();
+					})
+				});
+				
+				//login模板
+				layui.config({
+				  base: './js/' 
+				}).use('login');
+				//logout模板
+				layui.config({
+					base: './js/'
+				}).use('logout');
+			</script>
+	</body>
+</html>
