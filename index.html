@@ -314,8 +314,8 @@
 					form.on('submit(formDemo)', function(data) {
 						pageBtn = false;
 						pages.curr = 1;
-						if(data.field.status == "") {
-							data.field.status = null;
+						if(data.field.firstOrderStatuses == "") {
+							data.field.firstOrderStatuses = null;
 						}else{
 							var status = data.field.firstOrderStatuses;
 							data.field.firstOrderStatuses = [];
