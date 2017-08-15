@@ -314,6 +314,7 @@
 					form.on('submit(formDemo)', function(data) {
 						pageBtn = false;
 						pages.curr = 1;
+						$('#laypage').html('');
 						if(data.field.firstOrderStatuses == "") {
 							data.field.firstOrderStatuses = null;
 						}else{

@@ -268,7 +268,7 @@
 					</thead>
 					<tbody>
 						{{# layui.each(d, function(index, item){ }}
-						<tr data-id={{ item.id }}>
+						<tr data-date={{ item.settleDate }} data-id={{ item.serviceProviderId }}>
 							<td>{{ item.serviceProvider.name == null?"":item.serviceProvider.name }}</td>
 							<td>{{ item.serviceProviderIncomes == null?"":item.serviceProviderIncomes }}</td>
 							<td>{{ item.shopIncomes == null?"":item.shopIncomes }}</td>
@@ -308,7 +308,7 @@
 							<td>{{ item.orderPrice }}</td>
 							<td>{{ item.shopIncomes }}</td>
 							<td>{{ item.channelFee }}</td>
-							<td>{{ item.shopIncomes }}</td>
+							<td>{{ item.serviceProviderIncomes }}</td>
 							<td>{{ item.platformIncomes }}</td>
 						</tr>
 						{{# }); }} {{# if(d.length === 0){ }} 无数据 {{# } }}
@@ -445,7 +445,7 @@
 							success: function(data) {
 								pages.pages = data.data.pageCount;
 								var list = data.data.list;
-								console.log(list);
+								//console.log(list);
 								if(list.length != 0){
 									var getTpl = table.innerHTML;
 									laytpl(getTpl).render(list, function(html) {
@@ -479,8 +479,10 @@
 							data:dataList2,
 							success: function(data) {
 								pages1.pages = data.data.pageCount;
+								console.log(data);
 								var list = data.data.list;
 								if(list.length != 0){
+									//console.log(list[0].serviceProviderId);
 									var getTpl = detailsbox.innerHTML;
 									laytpl(getTpl).render(list, function(html) {
 										detailsTable.innerHTML = html;
@@ -514,6 +516,7 @@
 						$.ajax({
 							type: "post",
 							url: "http://inf.kuaicarkeep.com/console/serviceProviderSettle/queryDetailList",
+							//url: "http://192.168.1.145:8080/console/serviceProviderSettle/queryDetailList",
 							headers: {
 								'Authorization': 'Bearer ' + token
 							},
@@ -554,7 +557,10 @@
 					}
 					$(document).on('click','#projectTable tbody tr',function(){
 						var dataDate = $(this).attr('data-date');
+						pageBtn1 = false;
+						pages1.curr = 1;
 						dataList21.settleDate = dataDate;
+						dataList21.pageIndex = 0;
 						dataList2 = JSON.stringify(dataList21);
 						load1();
 					})
@@ -576,7 +582,7 @@
 								"id":id
 							},
 							success:function(data){
-								console.log(data);
+								//console.log(data);
 								if(data.result == "Succeeded"){
 									js.text('已结算');
 								   _this.remove();
@@ -587,9 +593,14 @@
 					
 					
 					$(document).on('click','#detailsTable tbody tr',function(){
-						var id = $(this).attr('data-shopid');
-						dataList31.id = id;
+						var id = $(this).attr('data-id');
+						var dataDate = $(this).attr('data-date');
+						pageBtn2 = false;
+						pages2.curr = 1;
+						dataList31.serviceProviderId = id;
+						dataList31.settleDate = dataDate;
 						dataList3 = JSON.stringify(dataList31);
+						console.log(dataList3);
 						load2();
 					})
 				});

@@ -512,6 +512,7 @@
 						pages1.curr = 1;
 						var dataDate = $(this).attr('data-date');
 						dataList21.settleDate = dataDate;
+						dataList21.pageIndex = 0;
 						dataList2 = JSON.stringify(dataList21);
 						load1();
 					})
@@ -551,6 +552,7 @@
 						var dataDate = $(this).attr('data-date');
 						dataList31.shopId = shopId;
 						dataList31.settleDate = dataDate;
+						dataList31.pageIndex = 0;
 						dataList3 = JSON.stringify(dataList31);
 						load2();
 					})

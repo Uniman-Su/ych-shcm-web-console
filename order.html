@@ -518,6 +518,7 @@
 				form.on('submit(formDemo)', function(data) {
 					pageBtn = false;
 					pages.curr = 1;
+					$('#laypage').html('');
 					if(data.field.status == "") {
 						data.field.status = null;
 					}else{
