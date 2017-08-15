@@ -154,10 +154,11 @@
 						</div>
 					</div>
 					<div class="layui-form-item">
-						<label class="layui-form-label">订单状态</label>
+						<label class="layui-form-label">首保订单状态</label>
 						<div class="layui-input-block">
-							<select name="status">
+							<select name="firstOrderStatuses">
 								<option value=""></option>
+								<option value="">所有状态</option>
 								<option value="UNPAYED">未支付</option>
 								<option value="PAYED">已支付</option>
 								<option value="SERVICED">已服务</option>
@@ -269,7 +270,7 @@
 						pageIndex:0,
 						pageSize:20,
 						startIndex:0,
-						status:null,
+						firstOrderStatuses:null,
 						vin:"",
 						effectTimeBegin:"",
 						effectTimeEnd:"",
@@ -316,9 +317,9 @@
 						if(data.field.status == "") {
 							data.field.status = null;
 						}else{
-							var status = data.field.status;
-							data.field.status = [];
-							data.field.status.push(status);
+							var status = data.field.firstOrderStatuses;
+							data.field.firstOrderStatuses = [];
+							data.field.firstOrderStatuses.push(status);
 						}
 						data.field.pageIndex = 0;
 						data.field.pageSize = 20;
@@ -335,6 +336,7 @@
 						$.ajax({
 							type: "post",
 							url: "http://inf.kuaicarkeep.com/console/car/queryList",
+							//url: "http://192.168.1.145:8080/console/car/queryList",
 							headers: {
 								'Authorization':'Bearer '+ token
 							},

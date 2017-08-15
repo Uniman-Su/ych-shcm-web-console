@@ -97,7 +97,7 @@
 			<!--admin-->
 
 			<!--details-->
-			<div id="details" class="details-container">
+			<div id="details" style="max-height: 500px;" class="details-container">
 				<div class="layui-tab layui-tab-card">
 					<ul class="layui-tab-title">
 						<li class="layui-this">基本信息</li>
@@ -164,7 +164,7 @@
 			<!--details-->
 
 			<!--details-->
-			<div id="details1" class="details-container">
+			<div id="details1" style="max-height: 500px;" class="details-container">
 				<div class="layui-tab layui-tab-card">
 					<ul class="layui-tab-title">
 						<li class="layui-this">明细数据</li>
@@ -487,17 +487,17 @@
 									});
 									if(!pageBtn1) {
 										laypage2 = laypage(pages1);
+										layer1=layer.open({
+											type: 1,
+											title: '',
+											closeBtn: 2,
+											area: ['1200px'],
+											shadeClose: true,
+											maxmin: true,
+											content: $('#details')
+										});
 									}
 									pageBtn1 = true;
-									layer1=layer.open({
-										type: 1,
-										title: '',
-										closeBtn: 2,
-										area: ['1200px'],
-										shadeClose: true,
-										maxmin: true,
-										content: $('#details')
-									});
 								}else{
 									$('#detailsTable').html('暂无数据');
 								}
@@ -530,8 +530,6 @@
 									});
 									if(!pageBtn2) {
 										laypage3 = laypage(pages2);
-									}
-									pageBtn2 = true;
 										layer2=layer.open({
 											type: 1,
 											title: '',
@@ -541,6 +539,9 @@
 											maxmin: true,
 											content: $('#details1')
 										});
+									}
+									pageBtn2 = true;
+										
 								}else{
 									$('#detailsTable1').html('暂无数据');
 								}

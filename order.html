@@ -74,6 +74,7 @@
 					<div class="layui-input-block">
 						<select multiple="multiple" name="status">
 							<option value=""></option>
+							<option value="">所有状态</option>
 							<option value="UNPAYED">未支付</option>
 							<option value="PAYED">已支付</option>
 							<option value="SERVICED">已服务</option>
@@ -547,6 +548,7 @@
 					$.ajax({
 						type: "post",
 						url: "http://inf.kuaicarkeep.com/console/order/queryList",
+						//url: "http://192.168.1.145:8080/console/order/queryList",
 						headers: {
 							'Authorization': 'Bearer ' + token
 						},
@@ -627,7 +629,7 @@
 							var order = data.data;
 							var orderDetails = {};
 							var total = 0;
-							if(order.shopId == null){
+							if(order.shopId == null || order.shopId == 0){
 								total+=1;
 							}
 							//console.log(order);
@@ -721,8 +723,7 @@
 											}
 										}
 									});
-									
-									if( order.shopId !=  null){
+									if( order.shopId !=  null && order.shopId !=0){
 										//店铺信息
 										$.ajax({
 											type: "post",

@@ -211,7 +211,7 @@
 				</table>
 			</script>
 			
-			<script id="detailsbox" type="text/html">
+			<script id="detailsbox" style="max-height: 500px;" type="text/html">
 				<table class="layui-table">
 					<thead>
 						<tr>
@@ -243,7 +243,7 @@
 				</table>
 			</script>
 			
-			<script id="detailsbox1" type="text/html">
+			<script id="detailsbox1" style="max-height: 500px;" type="text/html">
 				<table class="layui-table">
 					<thead>
 						<tr>
@@ -443,8 +443,6 @@
 									});
 									if(!pageBtn1) {
 										laypage2 = laypage(pages1);
-									}
-									pageBtn1 = true;
 										layer1=layer.open({
 											type: 1,
 											title: '',
@@ -454,6 +452,8 @@
 											maxmin: true,
 											content: $('#details')
 										});
+									}
+									pageBtn1 = true;
 								}else{
 									$('#detailsTable').html('暂无数据');
 								}
@@ -485,8 +485,6 @@
 									});
 									if(!pageBtn2) {
 										laypage3 = laypage(pages2);
-									}
-									pageBtn2 = true;
 										layer2=layer.open({
 											type: 1,
 											title: '',
@@ -496,6 +494,8 @@
 											maxmin: true,
 											content: $('#details1')
 										});
+									}
+									pageBtn2 = true;
 								}else{
 									$('#detailsTable1').html('暂无数据');
 								}
